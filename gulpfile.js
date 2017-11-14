@@ -18,7 +18,7 @@ gulp.task('html', () => {
 
 gulp.task('copy-assets', () => {
   gulp.src(['assets/*'])
-    .pipe(gulp.dest('dist/assets'));
+    .pipe(gulp.dest('dist/assets/'));
 });
 
 gulp.task('browser-sync', () => {
