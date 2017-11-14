@@ -15,6 +15,7 @@
     "browser-sync": "latest",
     "gulp": "latest",
     "gulp-autoprefixer": "latest",
+    "gulp-clean": "latest",
     "gulp-clean-css": "latest",
     "gulp-concat": "latest",
     "gulp-plumber": "latest",

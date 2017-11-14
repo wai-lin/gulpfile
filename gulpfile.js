@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
-const gutil = require('gulp-util');
+const g_util = require('gulp-util');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const concat = require('gulp-concat');
@@ -9,6 +9,12 @@ const browserSync = require('browser-sync');
 const reload = browserSync.reload;
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
+const clean = require('gulp-clean');
+
+gulp.task('clean', () => {
+  gulp.src('./dist', { read: false })
+    .pipe(clean());
+});
 
 gulp.task('html', () => {
   gulp.src(['**/*.html', '!dist/**/*.html', '!./node_modules/**'])
@@ -34,7 +40,7 @@ gulp.task('sass', () => {
     .pipe(plumber())
     .pipe(autoprefixer())
     .pipe(sass({ style: 'expanded' }))
-    .on('error', gutil.log)
+    .on('error', g_util.log)
     .pipe(gulp.dest('dist/css/'))
     .pipe(reload({ stream: true }));
 });
@@ -50,7 +56,7 @@ gulp.task('js', () => {
   gulp.src('js/**/*.js')
     .pipe(uglify())
     .pipe(concat('script.js'))
-    .on('error', gutil.log)
+    .on('error', g_util.log)
     .pipe(gulp.dest('dist/js/'));
 });
 
