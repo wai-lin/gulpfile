@@ -13,7 +13,7 @@ const clean = require('gulp-clean');
 
 gulp.task('clean', () => {
   gulp.src('./dist', { read: false })
-    .pipe(clean());
+    .pipe(clean())
 });
 
 gulp.task('html', () => {
@@ -23,7 +23,7 @@ gulp.task('html', () => {
 });
 
 gulp.task('copy-assets', () => {
-  gulp.src(['assets/*'])
+  gulp.src(['assets/**/*'])
     .pipe(gulp.dest('dist/assets/'));
 });
 
@@ -38,16 +38,17 @@ gulp.task('browser-sync', () => {
 gulp.task('sass', () => {
   gulp.src('scss/**/*.scss')
     .pipe(plumber())
-    .pipe(autoprefixer())
     .pipe(sass({ style: 'expanded' }))
     .on('error', g_util.log)
     .pipe(gulp.dest('dist/css/'))
+    .pipe(autoprefixer())
     .pipe(reload({ stream: true }));
 });
 
 gulp.task('minify-css', () => {
-  gulp.src('dist/css/**/*.css')
-    .pipe(cleanCSS({ debug: true, compatibility: 'ie8' }))
+  gulp.src(['dist/css/**/*.css', '!dist/css/**/*.min.css'])
+    .pipe(cleanCSS())
+    .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('dist/css/'))
     .pipe(reload({ stream: true }));
 });
@@ -64,7 +65,7 @@ gulp.task('watch', () => {
   gulp.watch(['**/*.html', '!dist/**/*.html'], ['html']);
   gulp.watch('scss/**/*.scss', ['sass', 'minify-css']);
   gulp.watch('js/**/*.js', ['js']);
-  gulp.watch('assets/*', ['copy-assets']);
+  gulp.watch('assets/**/*', ['copy-assets']);
 });
 
 gulp.task('default', ['html', 'copy-assets', 'sass', 'minify-css', 'js', 'browser-sync', 'watch']);
